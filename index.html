@@ -22,6 +22,10 @@
       background: #ebebeb;
       /* background: rgba(234,234,234,.5) ; */
     }
+    .padder{
+      width: 100%;
+      padding-top:202px;
+    }
     #root {
       width : 540px;
       height : 960px ;
@@ -191,7 +195,10 @@
       <div v-if="currentPage === 1" id="first-page" class="con">
 
         <img src="image/01.LOGO_new.png" width="150" alt="">
-        <div style="padding-top:202px;"></div>
+        <div class="padder" @click="enable_debug">
+          <div v-if="debug > 5"></div>
+          {{getRes()}}
+        </div>
         <img src="image/02.Title_new-01.png" width="468" alt="">
         <p class="web-subtitle">考驗您與候選人的住宅政策立場</p>
         <a class="btn btnn" v-on:click="nextRoute()">
@@ -203,7 +210,7 @@
       <div v-if="currentPage === 2" id="second-page" class="con" >
 
         <img src="image/01.LOGO_new.png" width="150" alt="">
-        <div style="padding-top:202px;"></div>
+        <div class="padder"></div>
         <p class="num">0{{currentQ}}.</p>
         <p class="q">{{ questions[currentQ][0] }}</p>
 
@@ -219,7 +226,7 @@
 
       <div v-if="currentPage === 3" class="con" >
         <img src="image/01.LOGO_new.png" width="150" alt="">
-        <div style="padding-top:202px;"></div>
+        <div class="padder" ></div>
         <p class="result-title">{{results[currentResult][0]}}</p>
         <div class="share-con">
           <div class="share-img-con">
@@ -279,6 +286,7 @@
         this.switchPage();
       },
       data: {
+        debug : 0 ,
         routes : ["1","2-1","2-2","2-3","2-4","2-5","3"],
         currentRouteIndex : 0,
         currentPage : 1 ,
@@ -368,11 +376,13 @@
           this.switchPage (this.currentPage);
 
         },
-        switchPage : function (currentPage){
-
-
-
+        enable_debug : function(){
+          this.debug ++ ;
         },
+        getRes : function(){
+          return document.documentElement.clientWidth + " x " +document.documentElement.clientHeight
+        },
+
         select : function (ans){
 
           this.$set(this.answer[this.currentQ] , 0 , false )
