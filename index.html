@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+    html {
+      font-size: 22px;
+    }
+    body {
+
+      background: rgba(234,234,234,.5) ;
+    }
+    #root {
+      width : 540px;
+      height : 960px ;
+      background: #ebebeb;
+      transition: transform 1s;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -480px;
+      margin-left: -270px;
+
+
+      padding : 36px;
+    }
+
+    p.web-subtitle {
+      margin-top: .5rem ;
+      line-height: 2.2;
+      font-size: 1rem;
+      text-align: center;;
+    }
+
+    .con {
+      position: relative; ;
+
+      height: 100%;
+    }
+    #inner {
+      /* background: yellow ; */
+    }
+
+
+    a.btnn {
+      display: block;
+      width: 100%;
+      font-weight:normal !important;
+      padding : 12px 0 ;
+      border-radius: 15px;
+      background : #4f3390  ;
+      text-align: center;
+      color: white !important;
+      font-size: 1rem;
+      position: absolute;
+      bottom: 0 ;
+    }
+    a.btnn2{
+      position: absolute;
+      bottom: 68px ;
+    }
+
+    p.num{
+      font-size: 1.5rem ;
+      margin-bottom: 1.5rem ;
+    }
+    p.q {
+      font-size: 1.5rem ;
+    }
+
+    .option-con {
+      position: absolute;
+      width: 100%;
+      bottom:  120px;
+    }
+
+    p.option {
+      border :black 2px solid ;
+      line-height: 50px;
+      font-size: 1.1rem ;
+      padding-left: .5rem;
+      width: 100%;
+      cursor: pointer;
+    }
+    p.option[data-selected="true"] {
+      background: black ;
+      color : white ;
+    }
+
+
+
+    p.result-title{
+      font-size: 1.6rem;
+      line-height: 2rem;
+    }
+    p.result-des {
+
+      font-size: .95rem;
+      line-height: 1.75;
+      text-align: justify;
+
+    }
+    p.share-des {
+      font-size: 1.1rem;
+    }
+    .share-con {
+      display: relative;
+      margin-bottom: 2em;
+    }
+    .share-img-con  {
+      display: block;
+      float: right;
+      font-size: 1rem;
+      line-height: 1.65;
+      text-align: right;
+
+    }
+    .share-img{
+      vertical-align: middle;
+      display: inline;
+      padding-bottom: 8px;
+      width: 120px;
+    }
+    p.people-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    p.maker {
+      float: right ;
+      padding-top: .42rem;
+      font-size: .6rem ;
+      margin-bottom: 0;
+    }
+    .people-img-con {
+      text-align: right;;
+    }
+    .people-img-con > img {
+      width: 60px;
+      margin-right: 5px;
+
+    }
+    </style>
+
+
+
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+
+    <!-- 360 * 640  -->
+    <div id="root">
+      <div v-if="currentPage === 1" id="first-page" class="con">
+
+        <img src="image/01.LOGO_new.png" width="150" alt="">
+        <div style="padding-top:202px;"></div>
+        <img src="image/02.Title_new-01.png" width="468" alt="">
+        <p class="web-subtitle">考驗您與候選人的住宅政策立場</p>
+        <a class="btn btnn" v-on:click="nextRoute()">
+          測驗開始
+        </a>
+      </div>
+
+
+      <div v-if="currentPage === 2" id="second-page" class="con" >
+
+        <img src="image/01.LOGO_new.png" width="150" alt="">
+        <div style="padding-top:202px;"></div>
+        <p class="num">0{{currentQ}}.</p>
+        <p class="q">{{ questions[currentQ][0] }}</p>
+
+        <div class="option-con">
+          <p class="option" v-on:click="select(0)" :data-selected="answer[currentQ][0]">A. {{questions[currentQ][1]}}</p>
+          <p class="option" v-on:click="select(1)" :data-selected="answer[currentQ][1]">B. {{questions[currentQ][2]}}</p>
+          <p class="option" v-on:click="select(2)" :data-selected="answer[currentQ][2]">C. {{questions[currentQ][3]}}</p>
+        </div>
+
+        <a class="btn btnn" :class="nextDisabled ? 'disabled' :'' " @click="nextRoute()" :disabled="nextDisabled">下一題</a>
+      </div>
+
+
+      <div v-if="currentPage === 3" class="con" >
+        <img src="image/01.LOGO_new.png" width="150" alt="">
+        <div style="padding-top:202px;"></div>
+        <p class="result-title">{{results[currentResult][0]}}</p>
+        <div class="share-con">
+          <div class="share-img-con">
+            <img class="share-img" src="image/03.fbshare_new.png" alt="">
+          </div>
+
+          <p class="share-des">邀請您分享給更多人</p>
+
+          <div class="clearfix"></div>
+        </div>
+
+        <p class="result-des">{{results[currentResult][1]}}</p>
+        <p class="maker">製作：翁家德、鄭竣丰</p>
+        <p class="people-title">{{results[currentResult][2]}}</p>
+        <div class="clearfix"></div>
+        <div class="people-img-con">
+          <img v-for="pstr in this.results[currentResult][3].split('、')"
+            :src="'image/03.candidate-'+ pstr.substr(0,2) + '.png' "
+            :alt="pstr.substr(2,3)">
+        </div>
+        <a class="btn btnn btnn2" href="https://spark.adobe.com/page/Odcy0uwtwFL2q/">觀看六督候選人政策主張</a>
+        <a class="btn btnn" href="https://spark.adobe.com/page/ekvaZerKHObo2/">閱讀白皮書全文</a>
+      </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script type="text/javascript">
+
+
+    $(window).on('resize',resize)
+
+    function resize (){
+      var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+      var $root = $("#root")
+
+      var wScale = w / 540
+      var hScale = h / 960
+      var minScale =  Math.min(wScale,hScale)
+      $root.css('transform', 'scale(' + minScale + ')');
+    }
+
+    resize();
+
+
+    var app = new Vue({
+      el: '#root',
+      created : function (){
+        this.switchPage();
+      },
+      data: {
+        routes : ["1","2-1","2-2","2-3","2-4","2-5","3"],
+        currentRouteIndex : 0,
+        currentPage : 1 ,
+        currentQ : 1 ,
+        currentResult : 2 ,
+        answer :{
+          1 : [false ,false ,false ],
+          2 : [false ,false ,false ],
+          3 : [false ,false ,false ],
+          4 : [false ,false ,false ],
+          5 : [false ,false ,false ]
+        },
+        questions : {
+          1  : ["面對買不起的購屋市場，政府該怎麼做才可以改善？",
+            "不動產資訊透明化，支持實價登錄修法",
+            "蓋更多房子增加供給，價格自然下修",
+            "不干預，交由市場機制"],
+
+          2  : ["面對市場大量空屋，政府該如何因應較理想？",
+           "大量空屋都是老屋，應加速都更",
+           "提高非自住空屋稅率，引導釋出",
+           "大量空屋是所有權人的自由，不應干預"],
+
+          3  : ["協助民眾居住的租金補貼（包括社宅租金），政府該怎樣做才合理？",
+           "依家庭收入能力分級，所得低補貼較多",
+           "補貼應該一致，才符合公平",
+           "應推購屋補貼，讓民眾買房少付點錢"],
+
+          4  : ["為提供一定數量的社會住宅，政府可以怎麼做？",
+           "政府興建為主，以都更等方式取得為輔",
+           "政府最好透過都更分回的房屋作為社宅",
+           "社宅不重要，應該要蓋便宜的出售國宅"],
+
+          5  : ["大學生宿舍嚴重不足，政府應該怎樣回應？",
+           "這是大學應自主解決的問題",
+           "外面租房子就好，沒那麼嚴重",
+           "與大學合作，讓社會住宅結合學生宿舍"]
+        },
+        results : {
+          3:["讚讚，我們認為你對住宅政策具正確觀念！",
+          "住宅政策應從購屋市場、租屋市場以及可負擔住宅政策三管齊下，才能有效落實居住正義。民間團體提出的「民間版住宅政策白皮書」，詳盡如何從這三面以政策工具去解決既有問題，更提出下一階段關於社會住宅的社會創新構想！",
+          "六都回應及格候選人：",
+          "01柯文哲、04姚文智、05侯友宜、02蘇貞昌"],
+
+          2:["勉強及格，住宅政策應更加全面地去檢視與討論！",
+          "住宅政策應分為兩大部分，透過稅賦引導空屋釋出、支持實價登錄修法更加透明化才能更有效解決住宅市場問題。其次，租金補貼應依家庭收入分級，在現今社會住宅存量極低狀況下，社會住宅仍應以政府為興辦主體。",
+          "六都回應待加強候選人：",
+          "06丁守中、03鄭文燦、07陳學聖、08林佳龍、09高思博"],
+
+          1:["不及格，你似乎不太關注居住議題：（",
+          "居住議題與你的一生關聯緊密，不論是選擇租屋或是購屋，穩定的居所是我們一生追求的基本。面對不合理的房價，或是屢遭挫折的租屋環境，抑或是現今熱議的公共住宅（社會住宅）議題，邀請你從今天開始關注「居住」！",
+          "六都不及格候選人：",
+          "10盧秀燕、11黃偉哲、12陳其邁、13韓國瑜"]
+        }
+
+      },
+      methods :{
+        nextRoute : function (){
+          this.currentRouteIndex++ ;
+
+
+          var r = this.routes[this.currentRouteIndex] ;
+          if (r === "1"){
+            this.currentPage = 1 ;
+          }else if (r.indexOf( "2-") > -1){
+            this.currentPage = 2 ;
+            this.currentQ = parseInt(r.substr(2,1));
+          }else if (r === "3"){
+            this.currentPage = 3 ;
+            // a b a a c
+            var rightCount = 0 ;
+            if (this.answer[1][0]) rightCount++ ;
+            if (this.answer[2][1]) rightCount++ ;
+            if (this.answer[3][0]) rightCount++ ;
+            if (this.answer[4][0]) rightCount++ ;
+            if (this.answer[5][2]) rightCount++ ;
+
+            if (rightCount < 3){
+              this.currentResult = 1 ;
+            }else if (rightCount == 3){
+              this.currentResult = 2 ;
+            }else if (rightCount > 3){
+              this.currentResult = 3 ;
+            }
+          }
+
+          this.switchPage (this.currentPage);
+
+        },
+        switchPage : function (currentPage){
+
+
+
+        },
+        select : function (ans){
+
+          this.$set(this.answer[this.currentQ] , 0 , false )
+          this.$set(this.answer[this.currentQ] , 1 , false )
+          this.$set(this.answer[this.currentQ] , 2 , false )
+          this.$set(this.answer[this.currentQ] , ans , true )
+
+          // this.answer[this.currentQ][0] = false ;
+          // this.answer[this.currentQ][1] = false ;
+          // this.answer[this.currentQ][2] = false ;
+          //
+          // this.answer[this.currentQ][ans] = true ;
+
+          // console.log(this.answer , this.answer[this.currentQ][0])
+        }
+
+      },
+      computed: {
+        // reverseItems : function () {
+        //     return this.items.slice().reverse();
+        // }
+        nextDisabled : function (){
+          console.log("this.answer[this.currentQ].includes(true)",this.answer[this.currentQ].includes(true))
+          return !this.answer[this.currentQ].includes(true)
+        }
+      }
+
+    })
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+https://deviceatlas.com/blog/mobile-viewport-size-statistics-2017
+
+
+"browserslist": [
+  "last 1 major version",
+  ">= 1%",
+  "Chrome >= 45",
+  "Firefox >= 38",
+  "Edge >= 12",
+  "Explorer >= 10",
+  "iOS >= 9",
+  "Safari >= 9",
+  "Android >= 4.4",
+  "Opera >= 30"
+]
+
+
+We noticed that
+
+360x640   is the most popular viewport size worldwide followed by 
+375x667  . These two sizes are leading in 17 countries out of 20 we analyzed with the only exceptions of Argentina, India, and Russia.
