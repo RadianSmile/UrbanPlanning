@@ -160,6 +160,16 @@
   </head>
   <body>
 
+    <!-- Comment #2: SDK -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
     <!-- 360 * 640  -->
     <div id="root">
       <div v-if="currentPage === 1" id="first-page" class="con">
@@ -197,7 +207,7 @@
         <p class="result-title">{{results[currentResult][0]}}</p>
         <div class="share-con">
           <div class="share-img-con">
-            <img class="share-img" src="image/03.fbshare_new.png" alt="">
+            <img @click="share()" class="share-img" src="image/03.fbshare_new.png" alt="">
           </div>
 
           <p class="share-des">邀請您分享給更多人！</p>
@@ -361,6 +371,12 @@
           // this.answer[this.currentQ][ans] = true ;
 
           // console.log(this.answer , this.answer[this.currentQ][0])
+        },
+        share : function (){
+          FB.ui({
+            method: 'share',
+            href: 'https://radiansmile.github.io/UrbanPlanning/index.html',
+          }, function(response){});
         }
 
       },
